@@ -1,7 +1,7 @@
 package com.vittur.vitturapp.dtos.create;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class VehiculoCreateDTO {
     @NotBlank(message = "El modelo no puede estar vacío")
     private String modelo;
     @NotBlank(message = "El año de fabricación no puede estar vacío")
-    @PastOrPresent(message = "El año de fabricación debe ser una fecha pasada o presente")
+    @Pattern(regexp = "^-?\\d+$", message = "El campo debe ser un número entero válido.")
     private String anyoFabricacion;
     @NotBlank(message = "El tipo de vehículo no puede estar vacío")
     private String tipoVehiculo;

@@ -1,4 +1,3 @@
-//TODO: Finish routing in UsuarioController and create VehiculoController
 package com.vittur.vitturapp.controller;
 
 import com.vittur.vitturapp.dtos.UsuarioDTO;
@@ -39,27 +38,56 @@ public class UsuarioController {
     public ResponseEntity<?> addUsuario(@Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO){
         try{
             Usuario usuario = new Usuario();
-            usuario.setUsername(usuarioCreateDTO.getUsername());
-            usuario.setPassword(usuarioCreateDTO.getPassword());
-            usuario.setNombre(usuarioCreateDTO.getNombre());
-            usuario.setApellido(usuarioCreateDTO.getApellido());
-            usuario.setEmail(usuarioCreateDTO.getEmail());
-            usuario.setTelefono(usuarioCreateDTO.getTelefono());
-            usuarioService.save(usuario);
+            setUsuario(usuarioCreateDTO, usuario);
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
+    @PutMapping("/usuarios/{id}")
+    public ResponseEntity<?> updateUsuario(@PathVariable Integer id, @Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO){
+        try {
+            Usuario currentUsuario = usuarioService.getUsuarioById(id);
+            setUsuario(usuarioCreateDTO, currentUsuario);
+            return new ResponseEntity<>(currentUsuario, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/usuarios/{id}")
+    public ResponseEntity<?> deleteUsuario(@PathVariable Integer id){
+        try {
+            usuarioService.deleteUsuario(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     private UsuarioDTO toUsuarioDTO(Usuario usuario){
         UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setIdUsuario(usuario.getIdUsuario());
         usuarioDTO.setUsername(usuario.getUsername());
+        usuarioDTO.setFechaCreacion(usuario.getFechaAlta());
         usuarioDTO.setNombre(usuario.getNombre());
         usuarioDTO.setApellido(usuario.getApellido());
+        usuarioDTO.setSegundoApellido(usuario.getSegundoApellido());
         usuarioDTO.setEmail(usuario.getEmail());
         usuarioDTO.setRol(usuario.getRol());
         usuarioDTO.setTelefono(usuario.getTelefono());
         return usuarioDTO;
+    }
+
+    private void setUsuario(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO, Usuario usuario) {
+        usuario.setUsername(usuarioCreateDTO.getUsername());
+        usuario.setPassword(usuarioCreateDTO.getPassword());
+        usuario.setNombre(usuarioCreateDTO.getNombre());
+        usuario.setApellido(usuarioCreateDTO.getApellido());
+        usuario.setSegundoApellido(usuarioCreateDTO.getSegundoApellido());
+        usuario.setEmail(usuarioCreateDTO.getEmail());
+        usuario.setTelefono(usuarioCreateDTO.getTelefono());
+        usuarioService.save(usuario);
     }
 }

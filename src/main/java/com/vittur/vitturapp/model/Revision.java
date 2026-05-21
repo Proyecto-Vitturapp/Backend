@@ -3,32 +3,34 @@ package com.vittur.vitturapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
-@Table(name = "revisiones")
+@Table(name = "reviews")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Revision {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id_revision")
+    @Column(name = "review_id")
     private Integer idRevision;
-    @Column(name = "fecha_revision")
-    private String fechaRevision;
-    @Column(name = "kilometraje_actual")
+    @Column(name = "review_date")
+    private LocalDate fechaRevision;
+    @Column(name = "actual_km")
     private Integer kilometrajeActual;
-    @Column(name = "diagnostico_resultado")
+    @Column(name = "review_note")
     private String diagnosticoResultado;
-    @Column(name = "fecha_proximo_mantenimiento")
-    private String fechaProximoMantenimiento;
-    @Column(name = "importe")
+    @Column(name = "next_review_date")
+    private LocalDate fechaProximoMantenimiento;
+    @Column(name = "import")
     private float importe;
 
     @ManyToOne
-    @JoinColumn(name = "matricula")
+    @JoinColumn(name = "plate")
     private Vehiculo vehiculo;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "user_id")
     private Usuario usuario;
 }

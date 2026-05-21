@@ -7,32 +7,32 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_usuario")
+    @Column(name = "user_id")
     private Integer idUsuario;
     @Column(name = "username")
     private String username;
     @Column(name = "password")
     private String password;
-    @Column(name = "fecha_alta")
+    @Column(name = "creation_date")
     private LocalDate fechaAlta;
-    @Column(name = "nombre")
+    @Column(name = "name")
     private String nombre;
-    @Column(name = "apellido")
+    @Column(name = "first_last_name")
     private String apellido;
-    @Column(name = "segundo_apellido")
+    @Column(name = "second_last_name")
     private String segundoApellido;
     @Column(name = "email")
     private String email;
-    @Column(name = "rol")
-    private String rol;
-    @Column(name = "telefono")
+    @Column(name = "role")
+    private Integer rol;
+    @Column(name = "phone_number")
     private String telefono;
 
     @OneToMany(mappedBy = "usuario")
@@ -40,14 +40,16 @@ public class Usuario {
 
     @ManyToMany
     @JoinTable(
-            name = "usuarios_vehiculos",
-            joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name = "matricula")
+            name = "users_vehicles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "plate")
     )
     private List<Vehiculo> vehiculos;
 
     @PrePersist
-    private void setFechaAlta(){
+    private void setFechaAltaAndRole(){
         this.fechaAlta = LocalDate.now();
+        this.rol = 0;
     }
+
 }

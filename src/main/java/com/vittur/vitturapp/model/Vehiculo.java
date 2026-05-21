@@ -6,21 +6,21 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "vehiculos")
+@Table(name = "vehicles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Vehiculo {
     @Id
-    @Column(name = "matricula")
+    @Column(name = "plate")
     private String matricula;
-    @Column(name = "marca")
+    @Column(name = "brand")
     private String marca;
-    @Column(name = "modelo")
+    @Column(name = "model")
     private String modelo;
-    @Column(name = "anyo_fabricacion")
+    @Column(name = "fabrication_year")
     private String anyoFabricacion;
-    @Column(name = "tipo_vehiculo")
+    @Column(name = "vehicle_type")
     private String tipoVehiculo;
 
     @OneToMany(mappedBy = "vehiculo")

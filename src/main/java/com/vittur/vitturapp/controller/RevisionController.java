@@ -52,15 +52,7 @@ public class RevisionController {
         }
     }
 
-    private void setRevision(@RequestBody @Valid RevisionCreateDTO revisionCreateDTO, Revision revision) {
-        revision.setFechaRevision(String.valueOf(revisionCreateDTO.getFechaRevision()));
-        revision.setKilometrajeActual(revisionCreateDTO.getKilometrajeActual());
-        revision.setDiagnosticoResultado(revisionCreateDTO.getDiagnosticoResultado());
-        revision.setFechaProximoMantenimiento(String.valueOf(revisionCreateDTO.getFechaProximoMantenimiento()));
-        revision.setImporte(revisionCreateDTO.getImporte());
-        revision.setVehiculo(vehiculoService.getVehiculoById(revisionCreateDTO.getMatricula()));
-        revision.setUsuario(usuarioService.getUsuarioById(revisionCreateDTO.getIdUsuario()));
-    }
+
 
     @PutMapping("/revisiones/{id}")
     public ResponseEntity<?> updateRevision(@PathVariable Integer id, @Valid @RequestBody RevisionCreateDTO revision){
@@ -86,12 +78,24 @@ public class RevisionController {
 
     private RevisionDTO toRevisionDTO(Revision revision){
         RevisionDTO revisionDTO = new RevisionDTO();
-        revisionDTO.setMatricula(revision.getVehiculo().getMatricula());
+        revisionDTO.setIdRevision(revision.getIdRevision());
+        revisionDTO.setMatricula(revision.getVehiculo() != null ? revision.getVehiculo().getMatricula() : null);
+        revisionDTO.setIdCliente(revision.getUsuario() != null ? revision.getUsuario().getIdUsuario() : null);
         revisionDTO.setFechaRevision(revision.getFechaRevision());
         revisionDTO.setKilometrajeActual(revision.getKilometrajeActual());
         revisionDTO.setDiagnosticoResultado(revision.getDiagnosticoResultado());
         revisionDTO.setFechaProximoMantenimiento(revision.getFechaProximoMantenimiento());
         revisionDTO.setImporte(revision.getImporte());
         return revisionDTO;
+    }
+
+    private void setRevision(@RequestBody @Valid RevisionCreateDTO revisionCreateDTO, Revision revision) {
+        revision.setFechaRevision(revisionCreateDTO.getFechaRevision());
+        revision.setKilometrajeActual(revisionCreateDTO.getKilometrajeActual());
+        revision.setDiagnosticoResultado(revisionCreateDTO.getDiagnosticoResultado());
+        revision.setFechaProximoMantenimiento(revisionCreateDTO.getFechaProximoMantenimiento());
+        revision.setImporte(revisionCreateDTO.getImporte());
+        revision.setVehiculo(vehiculoService.getVehiculoById(revisionCreateDTO.getMatricula()));
+        revision.setUsuario(usuarioService.getUsuarioById(revisionCreateDTO.getIdUsuario()));
     }
 }
