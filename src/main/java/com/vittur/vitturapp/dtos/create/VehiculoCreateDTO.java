@@ -11,14 +11,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VehiculoCreateDTO {
-    @NotBlank @Size(max = 15)
+    @NotBlank(message = "La matrícula no puede estar vacía")
+    @Size(max = 15, message = "La matrícula no puede tener más de 15 caracteres")
     private String matricula;
-    @NotBlank
+    @NotBlank(message = "La marca no puede estar vacía")
     private String marca;
-    @NotBlank
+    @NotBlank(message = "El modelo no puede estar vacío")
     private String modelo;
-    @NotBlank @PastOrPresent
+    @NotBlank(message = "El año de fabricación no puede estar vacío")
+    @PastOrPresent(message = "El año de fabricación debe ser una fecha pasada o presente")
     private String anyoFabricacion;
-    @NotBlank
+    @NotBlank(message = "El tipo de vehículo no puede estar vacío")
     private String tipoVehiculo;
 }

@@ -3,6 +3,7 @@ package com.vittur.vitturapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class Usuario {
     @Column(name = "password")
     private String password;
     @Column(name = "fecha_alta")
-    private String fechaAlta;
+    private LocalDate fechaAlta;
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "apellido")
@@ -44,4 +45,9 @@ public class Usuario {
             inverseJoinColumns = @JoinColumn(name = "matricula")
     )
     private List<Vehiculo> vehiculos;
+
+    @PrePersist
+    private void setFechaAlta(){
+        this.fechaAlta = LocalDate.now();
+    }
 }

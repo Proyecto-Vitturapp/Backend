@@ -42,17 +42,9 @@ public class RevisionController {
 
     @PostMapping("/revisiones")
     public ResponseEntity<?> addRevision(@Valid @RequestBody RevisionCreateDTO revisionCreateDTO){
-        Revision revision = new Revision();
-        revision.setFechaRevision(revisionCreateDTO.getFechaRevision());
-        revision.setKilometrajeActual(revisionCreateDTO.getKilometrajeActual());
-        revision.setDiagnosticoResultado(revisionCreateDTO.getDiagnosticoResultado());
-        revision.setFechaProximoMantenimiento(revisionCreateDTO.getFechaProximoMantenimiento());
-        revision.setImporte(revisionCreateDTO.getImporte());
-        revision.setVehiculo(vehiculoService.getVehiculoById(revisionCreateDTO.getMatricula()));
-        revision.setUsuario(usuarioService.getUsuarioById(revisionCreateDTO.getIdUsuario()));
         try {
-            revision.setVehiculo(vehiculoService.getVehiculoById(revisionCreateDTO.getMatricula()));
-            revision.setUsuario(usuarioService.getUsuarioById(revisionCreateDTO.getIdUsuario()));
+            Revision revision = new Revision();
+            setRevision(revisionCreateDTO, revision);
             revisionService.save(revision);
             return new ResponseEntity<>(revision, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -60,17 +52,21 @@ public class RevisionController {
         }
     }
 
+    private void setRevision(@RequestBody @Valid RevisionCreateDTO revisionCreateDTO, Revision revision) {
+        revision.setFechaRevision(String.valueOf(revisionCreateDTO.getFechaRevision()));
+        revision.setKilometrajeActual(revisionCreateDTO.getKilometrajeActual());
+        revision.setDiagnosticoResultado(revisionCreateDTO.getDiagnosticoResultado());
+        revision.setFechaProximoMantenimiento(String.valueOf(revisionCreateDTO.getFechaProximoMantenimiento()));
+        revision.setImporte(revisionCreateDTO.getImporte());
+        revision.setVehiculo(vehiculoService.getVehiculoById(revisionCreateDTO.getMatricula()));
+        revision.setUsuario(usuarioService.getUsuarioById(revisionCreateDTO.getIdUsuario()));
+    }
+
     @PutMapping("/revisiones/{id}")
     public ResponseEntity<?> updateRevision(@PathVariable Integer id, @Valid @RequestBody RevisionCreateDTO revision){
         try {
             Revision currentRevision = revisionService.getRevisionById(id);
-            currentRevision.setFechaRevision(revision.getFechaRevision());
-            currentRevision.setKilometrajeActual(revision.getKilometrajeActual());
-            currentRevision.setDiagnosticoResultado(revision.getDiagnosticoResultado());
-            currentRevision.setFechaProximoMantenimiento(revision.getFechaProximoMantenimiento());
-            currentRevision.setImporte(revision.getImporte());
-            currentRevision.setVehiculo(vehiculoService.getVehiculoById(revision.getMatricula()));
-            currentRevision.setUsuario(usuarioService.getUsuarioById(revision.getIdUsuario()));
+            setRevision(revision, currentRevision);
             revisionService.save(currentRevision);
             return new ResponseEntity<>(currentRevision, HttpStatus.OK);
         }  catch (Exception e) {

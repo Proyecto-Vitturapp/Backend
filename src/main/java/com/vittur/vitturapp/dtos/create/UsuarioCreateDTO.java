@@ -9,16 +9,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioCreateDTO {
-    @NotBlank
+    @NotBlank(message = "El nombre de usuario no puede estar vacío")
     private String username;
-    @Size(min = 8)
+    @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
     private String password;
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
-    @NotBlank
+    @NotBlank(message = "El apellido no puede estar vacío")
     private String apellido;
-    @Email
+    private String segundoApellido;
+    @Email(message = "El email no tiene un formato válido")
     private String email;
-    @NotBlank
+    @NotBlank(message = "El teléfono no puede estar vacío")
     private String telefono;
 }
