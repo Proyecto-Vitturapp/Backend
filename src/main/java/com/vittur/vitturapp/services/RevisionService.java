@@ -1,5 +1,6 @@
 package com.vittur.vitturapp.services;
 
+import com.vittur.vitturapp.dtos.RevisionDTO;
 import com.vittur.vitturapp.dtos.create.RevisionCreateDTO;
 import com.vittur.vitturapp.model.Revision;
 import com.vittur.vitturapp.repository.RevisionRepository;
@@ -31,5 +32,9 @@ public class RevisionService {
 
     public void deleteRevision(Integer id){
         revisionRepository.deleteById(id);
+    }
+
+    public List<Revision> getRevisionesByMatricula(String matricula){
+        return revisionRepository.findByVehiculoMatricula(matricula);
     }
 }

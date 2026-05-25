@@ -25,19 +25,41 @@ public class VehiculoController {
     private UsuarioService usuarioService;
 
     @GetMapping("/vehicles")
-    public List<VehiculoDTO> getAllVehiculos(){
-        List<VehiculoDTO> vehiculosDTO = new ArrayList<>();
-        List<Vehiculo> vehiculos = vehiculoService.getAllVehiculos();
-        for (Vehiculo veh : vehiculos) {
-            vehiculosDTO.add(toVehiculoDTO(veh));
+    public ResponseEntity<List<VehiculoDTO>> getAllVehicles(){
+        try {
+            List<Vehiculo> vehiculos = vehiculoService.getAllVehiculos();
+            List<VehiculoDTO> vehiculosDTO = new ArrayList<>();
+            for (Vehiculo veh : vehiculos) {
+                vehiculosDTO.add(toVehiculoDTO(veh));
+            }
+            return new ResponseEntity<>(vehiculosDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return vehiculosDTO;
     }
 
     @GetMapping("/vehicles/{plate}")
-    public VehiculoDTO getVehiculoById(@PathVariable String plate){
-        Vehiculo vehiculo = vehiculoService.getVehiculoById(plate);
-        return toVehiculoDTO(vehiculo);
+    public ResponseEntity<VehiculoDTO> getVehiculoById(@PathVariable String plate){
+        try {
+            Vehiculo vehiculo = vehiculoService.getVehiculoById(plate);
+            return new ResponseEntity<>(toVehiculoDTO(vehiculo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/usuarios/{usuarioId}/vehiculos")
+    public ResponseEntity<List<VehiculoDTO>> getVehiculosByIdUsuario(@PathVariable Integer usuarioId){
+        try {
+            List<Vehiculo> vehiculos = vehiculoService.findByIdUsuario(usuarioId);
+            List<VehiculoDTO> vehiculosDTO = new ArrayList<>();
+            for (Vehiculo veh : vehiculos) {
+                vehiculosDTO.add(toVehiculoDTO(veh));
+            }
+            return new ResponseEntity<>(vehiculosDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/vehicles")
@@ -46,6 +68,16 @@ public class VehiculoController {
             Vehiculo vehiculo = new Vehiculo();
             setVehiculo(vehiculoCreateDTO, vehiculo);
             return new ResponseEntity<>(vehiculo, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/usuarios/{usuarioId}/vehicles/{plate}")
+    public ResponseEntity<?> addVehiculoToUsuario(@PathVariable Integer usuarioId, @PathVariable String plate){
+        try {
+            vehiculoService.asociarVehiculo(usuarioId, plate);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -71,6 +103,8 @@ public class VehiculoController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+
 
     public VehiculoDTO toVehiculoDTO(Vehiculo vehiculo){
         VehiculoDTO vehiculoDTO = new VehiculoDTO();

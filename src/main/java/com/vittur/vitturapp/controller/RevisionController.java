@@ -7,6 +7,7 @@ import com.vittur.vitturapp.services.RevisionService;
 import com.vittur.vitturapp.services.UsuarioService;
 import com.vittur.vitturapp.services.VehiculoService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,28 +17,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class RevisionController {
-    @Autowired
-    private RevisionService revisionService;
-    @Autowired
-    private VehiculoService vehiculoService;
-    @Autowired
-    private UsuarioService usuarioService;
+    private final RevisionService revisionService;
+    private final VehiculoService vehiculoService;
+    private final UsuarioService usuarioService;
 
     @GetMapping("/revisiones")
-    public List<RevisionDTO> getAllRevisiones(){
-        List<RevisionDTO> revisionesDTO = new ArrayList<>();
-        List<Revision> revisiones = revisionService.getAllRevisiones();
-        for (Revision rev : revisiones) {
-            revisionesDTO.add(toRevisionDTO(rev));
+    public ResponseEntity<List<RevisionDTO>> getAllRevisiones(){
+        try {
+            List<Revision> revisiones = revisionService.getAllRevisiones();
+            List<RevisionDTO> revisionesDTO = new ArrayList<>();
+            for (Revision rev : revisiones) {
+                revisionesDTO.add(toRevisionDTO(rev));
+            }
+            return new ResponseEntity<>(revisionesDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return revisionesDTO;
     }
 
     @GetMapping("/revisiones/{id}")
-    public RevisionDTO getRevisionById(@PathVariable Integer id){
-        Revision revision = revisionService.getRevisionById(id);
-        return toRevisionDTO(revision);
+    public ResponseEntity<RevisionDTO> getRevisionById(@PathVariable Integer id){
+        try {
+            Revision revision = revisionService.getRevisionById(id);
+            return new ResponseEntity<>(toRevisionDTO(revision), HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/revisiones/vehiculo/{matricula}")
+    public ResponseEntity<List<RevisionDTO>> getRevisionesByMatricula(@PathVariable String matricula){
+        try {
+            List<Revision> revisiones = revisionService.getRevisionesByMatricula(matricula);
+            List<RevisionDTO> revisionesDTO = new ArrayList<>();
+            for (Revision rev : revisiones) {
+                revisionesDTO.add(toRevisionDTO(rev));
+            }
+            return new ResponseEntity<>(revisionesDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/revisiones")

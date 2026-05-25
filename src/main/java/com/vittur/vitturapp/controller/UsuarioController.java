@@ -1,10 +1,14 @@
 package com.vittur.vitturapp.controller;
 
 import com.vittur.vitturapp.dtos.UsuarioDTO;
+import com.vittur.vitturapp.dtos.VehiculoDTO;
 import com.vittur.vitturapp.dtos.create.UsuarioCreateDTO;
 import com.vittur.vitturapp.model.Usuario;
+import com.vittur.vitturapp.model.Vehiculo;
 import com.vittur.vitturapp.services.UsuarioService;
+import com.vittur.vitturapp.services.VehiculoService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,24 +18,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
+@RequiredArgsConstructor
 public class UsuarioController {
-    @Autowired
-    private UsuarioService usuarioService;
+
+    private final UsuarioService usuarioService;
 
     @GetMapping("/usuarios")
-    public List<UsuarioDTO> getAllUsuarios(){
-        List<UsuarioDTO> usuariosDTO = new ArrayList<>();
-        List<Usuario> usuarios = usuarioService.getAllUsuarios();
-        for (Usuario usu : usuarios) {
-            usuariosDTO.add(toUsuarioDTO(usu));
+    public ResponseEntity<List<UsuarioDTO>> getAllUsuarios(){
+        try {
+            List<Usuario> usuarios = usuarioService.getAllUsuarios();
+            List<UsuarioDTO> usuariosDTO = new ArrayList<>();
+            for (Usuario usu : usuarios) {
+                usuariosDTO.add(toUsuarioDTO(usu));
+            }
+            return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return usuariosDTO;
     }
 
     @GetMapping("/usuarios/{id}")
-    public UsuarioDTO getUsuarioById(@PathVariable Integer id){
-        Usuario usuario = usuarioService.getUsuarioById(id);
-        return toUsuarioDTO(usuario);
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Integer id){
+        try {
+            Usuario usuario = usuarioService.getUsuarioById(id);
+            return new ResponseEntity<>(toUsuarioDTO(usuario), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @PostMapping("/usuarios")
