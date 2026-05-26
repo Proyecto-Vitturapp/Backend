@@ -51,5 +51,4 @@ public class Usuario {
         this.fechaAlta = LocalDate.now();
         this.rol = 0;
     }
-
 }

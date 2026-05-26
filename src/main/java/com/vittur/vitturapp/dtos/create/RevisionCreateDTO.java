@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RevisionCreateDTO {
     @NotNull(message = "La fecha de la revisión no puede ser nula")
-    @FutureOrPresent(message = "La fecha de la revisión debe ser una fecha futura o la actual")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate fechaRevision;
     @NotNull(message = "El kilometraje actual no puede ser nulo")

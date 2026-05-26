@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Data
-//Antes tenia allargs y noargs, revisar si peta algo
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;

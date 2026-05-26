@@ -79,7 +79,7 @@ public class UsuarioController {
         try {
             Usuario currentUsuario = usuarioService.getUsuarioById(id);
             setUsuario(usuarioCreateDTO, currentUsuario);
-            return new ResponseEntity<>(currentUsuario, HttpStatus.OK);
+            return new ResponseEntity<>(toUsuarioDTO(currentUsuario), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

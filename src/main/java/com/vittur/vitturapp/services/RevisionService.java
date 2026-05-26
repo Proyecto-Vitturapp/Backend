@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class RevisionService {
-    @Autowired
-    private RevisionRepository revisionRepository;
+
+    private final RevisionRepository revisionRepository;
 
     public List<Revision> getAllRevisiones() {
         return revisionRepository.findAll();
