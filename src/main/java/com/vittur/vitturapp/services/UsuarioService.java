@@ -4,23 +4,27 @@ import com.vittur.vitturapp.model.Usuario;
 import com.vittur.vitturapp.repository.UsuarioRepository;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Data
+//Antes tenia allargs y noargs, revisar si peta algo
 public class UsuarioService {
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+
+    private final UsuarioRepository usuarioRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     public List<Usuario> getAllUsuarios(){
         return usuarioRepository.findAll();
     }
 
     public void save(Usuario usuario){
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioRepository.save(usuario);
     }
 
@@ -35,4 +39,8 @@ public class UsuarioService {
     public List<Usuario> getUsuariosByMatricula(String matricula){
         return usuarioRepository.findByVehiculosMatricula(matricula);
     }
+
+
+
+
 }

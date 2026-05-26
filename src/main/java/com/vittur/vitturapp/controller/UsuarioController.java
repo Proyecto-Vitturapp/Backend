@@ -34,7 +34,8 @@ public class UsuarioController {
             }
             return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
