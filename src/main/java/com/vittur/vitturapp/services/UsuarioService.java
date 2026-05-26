@@ -32,5 +32,7 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    
+    public List<Usuario> getUsuariosByMatricula(String matricula){
+        return usuarioRepository.findByVehiculosMatricula(matricula);
+    }
 }

@@ -46,7 +46,20 @@ public class UsuarioController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
 
+    @GetMapping("/vehiculos/{matricula}/usuarios")
+    public ResponseEntity<List<UsuarioDTO>> getUsuariosByMatricula(@PathVariable String matricula){
+        try {
+            List<Usuario> usuarios = usuarioService.getUsuariosByMatricula(matricula);
+            List<UsuarioDTO> usuariosDTO = new ArrayList<>();
+            for (Usuario usu : usuarios) {
+                usuariosDTO.add(toUsuarioDTO(usu));
+            }
+            return new ResponseEntity<>(usuariosDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/usuarios")

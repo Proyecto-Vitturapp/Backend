@@ -125,11 +125,3 @@ public class VehiculoController {
         vehiculoService.save(vehiculo);
     }
 }
-
-/*
-Endpoints para front de vehiculo:
--GET todos los vehiculos con todos los datos
--GET por id mismo requisito
--Todos los datos de los Vehiculos de un usuario
--
-*/
