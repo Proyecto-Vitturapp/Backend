@@ -1,5 +1,6 @@
 package com.vittur.vitturapp.services;
 
+import com.vittur.vitturapp.dtos.JwtResponseDTO;
 import com.vittur.vitturapp.model.Usuario;
 import com.vittur.vitturapp.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +12,17 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public boolean authenticate(String username, String rawPassword) {
+    public JwtResponseDTO authenticate(String username, String rawPassword) {
         Usuario usuario = usuarioRepository.findByUsername(username).orElse(null);
         if (usuario == null) {
-            return false;
+            return null;
         }
-        return passwordEncoder.matches(rawPassword, usuario.getPassword());
+        if (!passwordEncoder.matches(rawPassword, usuario.getPassword())) {
+            return null;
+        }
+        String token = jwtService.generateToken(usuario.getUsername(), usuario.getRol());
+        return new JwtResponseDTO(token, usuario.getUsername(), usuario.getRol());
     }
 }

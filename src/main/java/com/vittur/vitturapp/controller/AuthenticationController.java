@@ -1,5 +1,6 @@
 package com.vittur.vitturapp.controller;
 
+import com.vittur.vitturapp.dtos.JwtResponseDTO;
 import com.vittur.vitturapp.dtos.LoginDTO;
 import com.vittur.vitturapp.services.AuthenticationService;
 import jakarta.validation.Valid;
@@ -17,9 +18,9 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO) {
-        boolean authenticated = authenticationService.authenticate(loginDTO.getUsername(), loginDTO.getPassword());
-        if (authenticated) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        JwtResponseDTO response = authenticationService.authenticate(loginDTO.getUsername(), loginDTO.getPassword());
+        if (response != null) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
         return new ResponseEntity<>("Credenciales inválidas", HttpStatus.UNAUTHORIZED);
     }
