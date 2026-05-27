@@ -26,17 +26,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf(csrf -> csrf.disable());
+        try {
+            http.csrf(csrf -> csrf.disable());
 
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, "/api/usuarios", "/api/usuarios/**").permitAll()
-                .requestMatchers("/api/revisiones", "/api/revisiones/**").hasRole("MECANICO")
-                .requestMatchers("/api/vehicles", "/api/vehicles/**").hasAnyRole("CLIENTE", "MECANICO")
-                .anyRequest().authenticated()
-        );
+            http.authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.POST, "/api/usuarios", "/api/usuarios/**").permitAll()
+                    .requestMatchers("/api/revisiones", "/api/revisiones/**").hasRole("MECANICO")
+                    .requestMatchers("/api/vehicles", "/api/vehicles/**").hasAnyRole("CLIENTE", "MECANICO")
+                    .anyRequest().authenticated()
+            );
 
-        http.httpBasic(Customizer.withDefaults());
+            http.httpBasic(Customizer.withDefaults());
 
-        return http.build();
+            return http.build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
