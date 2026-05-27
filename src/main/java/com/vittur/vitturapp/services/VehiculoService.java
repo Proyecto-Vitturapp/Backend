@@ -22,6 +22,10 @@ public class VehiculoService {
         return vehiculoRepository.findAll();
     }
 
+    public long getTotalVehiculos(){
+        return vehiculoRepository.count();
+    }
+
     public void save(Vehiculo vehiculo){
         vehiculoRepository.save(vehiculo);
     }

@@ -49,6 +49,16 @@ public class UsuarioController {
         }
     }
 
+    @GetMapping("/usuarios/total")
+    public ResponseEntity<Long> getTotalUsuarios(){
+        try {
+            long total = usuarioService.getTotalUsuarios();
+            return new ResponseEntity<>(total, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/vehiculos/{matricula}/usuarios")
     public ResponseEntity<List<UsuarioDTO>> getUsuariosByMatricula(@PathVariable String matricula){
         try {

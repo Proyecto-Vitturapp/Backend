@@ -49,6 +49,16 @@ public class VehiculoController {
         }
     }
 
+    @GetMapping("/vehiculos/total")
+    public ResponseEntity<Long> getTotalVehiculos(){
+        try {
+            long total = vehiculoService.getTotalVehiculos();
+            return new ResponseEntity<>(total, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/usuarios/{usuarioId}/vehiculos")
     public ResponseEntity<List<VehiculoDTO>> getVehiculosByIdUsuario(@PathVariable Integer usuarioId){
         try {

@@ -22,6 +22,10 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
+    public long getTotalUsuarios(){
+        return usuarioRepository.count();
+    }
+
     public void save(Usuario usuario){
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioRepository.save(usuario);
