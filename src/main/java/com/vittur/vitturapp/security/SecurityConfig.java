@@ -30,7 +30,6 @@ public class SecurityConfig {
             http.csrf(csrf -> csrf.disable());
 
             http.authorizeHttpRequests(auth -> auth
-                    .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/usuarios", "/api/usuarios/**").permitAll()
                     .requestMatchers("/api/revisiones", "/api/revisiones/**").hasRole("MECANICO")
                     .requestMatchers("/api/vehicles", "/api/vehicles/**").hasAnyRole("CLIENTE", "MECANICO")
