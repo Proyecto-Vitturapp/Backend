@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class JwtResponseDTO {
     private String token;
-    private String username;
-    private Integer role;
+    private Integer userId;
 }

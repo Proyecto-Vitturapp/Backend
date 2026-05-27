@@ -23,6 +23,6 @@ public class AuthenticationService {
             return null;
         }
         String token = jwtService.generateToken(usuario.getUsername(), usuario.getRol());
-        return new JwtResponseDTO(token, usuario.getUsername(), usuario.getRol());
+        return new JwtResponseDTO(token, usuario.getIdUsuario());
     }
 }

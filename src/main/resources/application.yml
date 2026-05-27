@@ -19,3 +19,6 @@ spring:
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   expiration: 86400000
+
+api:
+  secret-key: ${API_SECRET_KEY}
