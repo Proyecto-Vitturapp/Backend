@@ -15,4 +15,6 @@ public interface VehiculoRepository extends JpaRepository<Vehiculo, String> {
     long countByStatus(Integer status);
 
     List<Vehiculo> findByStatus(Integer status);
+
+    List<Vehiculo> findByUsuariosIdUsuarioAndStatus(Integer idUsuario, Integer status);
 }

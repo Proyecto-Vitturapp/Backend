@@ -97,6 +97,20 @@ public class VehiculoController {
         }
     }
 
+    @GetMapping("/vehicles/{userId}/in-workshop")
+    public ResponseEntity<List<VehiculoDTO>> getVehiclesInWorkshopByUserId(@PathVariable Integer userId){
+        try {
+            List<Vehiculo> vehiculos = vehiculoService.findVehiculosEnTallerByUsuario(userId);
+            List<VehiculoDTO> vehiculosDTO = new ArrayList<>();
+            for (Vehiculo veh : vehiculos) {
+                vehiculosDTO.add(toVehiculoDTO(veh));
+            }
+            return new ResponseEntity<>(vehiculosDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/vehicle/new")
     public ResponseEntity<?> addVehiculo(@Valid @RequestBody VehiculoCreateDTO vehiculoCreateDTO){
         try {
