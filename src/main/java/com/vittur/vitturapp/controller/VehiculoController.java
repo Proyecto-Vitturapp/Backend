@@ -59,7 +59,7 @@ public class VehiculoController {
         }
     }
 
-    @GetMapping("/usuarios/{usuarioId}/vehiculos")
+    @GetMapping("/vehiculos/usuarioid/{usuarioId}")
     public ResponseEntity<List<VehiculoDTO>> getVehiculosByIdUsuario(@PathVariable Integer usuarioId){
         try {
             List<Vehiculo> vehiculos = vehiculoService.findByIdUsuario(usuarioId);
