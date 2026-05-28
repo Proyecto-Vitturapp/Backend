@@ -62,6 +62,16 @@ public class RevisionController {
         }
     }
 
+    @GetMapping("/revisiones/total")
+    public ResponseEntity<Long> getTotalRevisiones(){
+        try {
+            long total = revisionService.getTotalRevisiones();
+            return new ResponseEntity<>(total, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/revisiones")
     public ResponseEntity<?> addRevision(@Valid @RequestBody RevisionCreateDTO revisionCreateDTO){
         try {

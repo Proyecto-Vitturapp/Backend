@@ -36,4 +36,8 @@ public class RevisionService {
     public List<Revision> getRevisionesByMatricula(String matricula){
         return revisionRepository.findByVehiculoMatricula(matricula);
     }
+
+    public long getTotalRevisiones(){
+        return revisionRepository.count();
+    }
 }
