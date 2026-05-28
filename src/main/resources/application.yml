@@ -7,6 +7,9 @@ spring:
     password: ${PASS}
     url: ${URL}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      data-source-properties:
+        prepareThreshold: 0
 
   jpa:
     hibernate:
