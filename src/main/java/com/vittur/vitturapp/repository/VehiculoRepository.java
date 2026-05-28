@@ -11,4 +11,6 @@ public interface VehiculoRepository extends JpaRepository<Vehiculo, String> {
     List<Vehiculo> findByUsuariosIdUsuario(Integer idUsuario);
 
     Vehiculo findByMatricula(String matricula);
+
+    long countByStatus(Integer status);
 }

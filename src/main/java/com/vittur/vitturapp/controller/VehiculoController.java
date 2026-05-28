@@ -59,6 +59,16 @@ public class VehiculoController {
         }
     }
 
+    @GetMapping("/vehiculos/entaller")
+    public ResponseEntity<Long> getTotalVehiculosEnTaller(){
+        try {
+            long total = vehiculoService.getTotalVehiculosEnTaller();
+            return new ResponseEntity<>(total, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/vehiculos/usuarioid/{usuarioId}")
     public ResponseEntity<List<VehiculoDTO>> getVehiculosByIdUsuario(@PathVariable Integer usuarioId){
         try {
