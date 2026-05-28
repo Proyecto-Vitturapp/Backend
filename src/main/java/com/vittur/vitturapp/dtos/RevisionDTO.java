@@ -14,6 +14,5 @@ public class RevisionDTO {
     private LocalDate fechaRevision;
     private Integer kilometrajeActual;
     private String diagnosticoResultado;
-    private LocalDate fechaProximoMantenimiento;
     private float importe;
 }

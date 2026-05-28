@@ -21,10 +21,6 @@ public class RevisionCreateDTO {
     @NotBlank(message = "El diagnóstico no puede estar vacío")
     @Size(max = 1000, message = "El diagnóstico no puede tener más de 1000 caracteres")
     private String diagnosticoResultado;
-    @NotNull(message = "La fecha del próximo mantenimiento no puede ser nula")
-    @FutureOrPresent(message = "La fecha del próximo mantenimiento debe ser una fecha futura o la actual")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate fechaProximoMantenimiento;
     @NotNull(message = "El importe no puede ser nulo")
     @PositiveOrZero(message = "El importe debe ser un valor positivo o cero")
     private float importe;

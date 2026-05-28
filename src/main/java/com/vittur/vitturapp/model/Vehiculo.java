@@ -3,6 +3,7 @@ package com.vittur.vitturapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,10 @@ public class Vehiculo {
     private String anyoFabricacion;
     @Column(name = "vehicle_type")
     private String tipoVehiculo;
+    @Column(name = "next_review_date")
+    private LocalDate fechaProximoMantenimiento;
+    @Column(name = "status")
+    private Integer status;
 
     @OneToMany(mappedBy = "vehiculo")
     private List<Revision> revisiones;

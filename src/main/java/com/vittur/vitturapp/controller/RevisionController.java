@@ -3,6 +3,7 @@ package com.vittur.vitturapp.controller;
 import com.vittur.vitturapp.dtos.RevisionDTO;
 import com.vittur.vitturapp.dtos.create.RevisionCreateDTO;
 import com.vittur.vitturapp.model.Revision;
+import com.vittur.vitturapp.model.Vehiculo;
 import com.vittur.vitturapp.services.RevisionService;
 import com.vittur.vitturapp.services.UsuarioService;
 import com.vittur.vitturapp.services.VehiculoService;
@@ -116,7 +117,6 @@ public class RevisionController {
         revisionDTO.setFechaRevision(revision.getFechaRevision());
         revisionDTO.setKilometrajeActual(revision.getKilometrajeActual());
         revisionDTO.setDiagnosticoResultado(revision.getDiagnosticoResultado());
-        revisionDTO.setFechaProximoMantenimiento(revision.getFechaProximoMantenimiento());
         revisionDTO.setImporte(revision.getImporte());
         return revisionDTO;
     }
@@ -125,9 +125,10 @@ public class RevisionController {
         revision.setFechaRevision(revisionCreateDTO.getFechaRevision());
         revision.setKilometrajeActual(revisionCreateDTO.getKilometrajeActual());
         revision.setDiagnosticoResultado(revisionCreateDTO.getDiagnosticoResultado());
-        revision.setFechaProximoMantenimiento(revisionCreateDTO.getFechaProximoMantenimiento());
         revision.setImporte(revisionCreateDTO.getImporte());
-        revision.setVehiculo(vehiculoService.getVehiculoById(revisionCreateDTO.getMatricula()));
+        Vehiculo vehiculo = vehiculoService.getVehiculoById(revisionCreateDTO.getMatricula());
+        vehiculoService.save(vehiculo);
+        revision.setVehiculo(vehiculo);
         revision.setUsuario(usuarioService.getUsuarioById(revisionCreateDTO.getIdUsuario()));
     }
 }

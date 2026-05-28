@@ -21,8 +21,6 @@ public class Revision {
     private Integer kilometrajeActual;
     @Column(name = "review_note")
     private String diagnosticoResultado;
-    @Column(name = "next_review_date")
-    private LocalDate fechaProximoMantenimiento;
     @Column(name = "import")
     private float importe;
 

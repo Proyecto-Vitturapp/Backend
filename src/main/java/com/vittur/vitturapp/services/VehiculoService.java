@@ -42,6 +42,10 @@ public class VehiculoService {
         return vehiculoRepository.findByUsuariosIdUsuario(idUsuario);
     }
 
+    public long getTotalVehiculosEnTaller(){
+        return vehiculoRepository.countByStatus(1);
+    }
+
     @Transactional
     public void asociarVehiculo(Integer userId, String plate){
         Usuario usuario = usuarioRepository.findByIdUsuario(userId);
