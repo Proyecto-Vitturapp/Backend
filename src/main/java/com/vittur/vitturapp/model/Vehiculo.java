@@ -26,7 +26,7 @@ public class Vehiculo {
     @Column(name = "next_review_date")
     private LocalDate fechaProximoMantenimiento;
     @Column(name = "status")
-    private Integer status;
+    private Integer status = 0;
 
     @OneToMany(mappedBy = "vehiculo")
     private List<Revision> revisiones;

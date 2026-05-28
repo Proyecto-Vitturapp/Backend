@@ -171,6 +171,7 @@ public class VehiculoController {
         vehiculo.setModelo(vehiculoCreateDTO.getModelo());
         vehiculo.setAnyoFabricacion(vehiculoCreateDTO.getAnyoFabricacion());
         vehiculo.setTipoVehiculo(vehiculoCreateDTO.getTipoVehiculo());
+        vehiculo.setStatus(0);
         vehiculoService.save(vehiculo);
     }
 }
