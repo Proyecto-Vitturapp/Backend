@@ -25,7 +25,7 @@ public class VehiculoController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/vehicles")
+    @GetMapping("/vehicles/all")
     public ResponseEntity<List<VehiculoDTO>> getAllVehicles(){
         try {
             List<Vehiculo> vehiculos = vehiculoService.getAllVehiculos();
@@ -49,7 +49,7 @@ public class VehiculoController {
         }
     }
 
-    @GetMapping("/vehiculos/total")
+    @GetMapping("/vehicles/all/total")
     public ResponseEntity<Long> getTotalVehiculos(){
         try {
             long total = vehiculoService.getTotalVehiculos();
@@ -59,7 +59,7 @@ public class VehiculoController {
         }
     }
 
-    @GetMapping("/vehiculos/entaller")
+    @GetMapping("/vehicles/in-workshop/total")
     public ResponseEntity<Long> getTotalVehiculosEnTaller(){
         try {
             long total = vehiculoService.getTotalVehiculosEnTaller();
@@ -83,7 +83,7 @@ public class VehiculoController {
         }
     }
 
-    @PostMapping("/vehicles")
+    @PostMapping("/vehicle/new")
     public ResponseEntity<?> addVehiculo(@Valid @RequestBody VehiculoCreateDTO vehiculoCreateDTO){
         try {
             Vehiculo vehiculo = new Vehiculo();
