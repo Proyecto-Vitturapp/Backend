@@ -108,7 +108,7 @@ public class UsuarioController {
     private UsuarioDTO toUsuarioDTO(Usuario usuario){
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setIdUsuario(usuario.getIdUsuario());
-        usuarioDTO.setUsername(usuario.getUsername());
+        usuarioDTO.setUsername(usuario.getUsername().toLowerCase());
         usuarioDTO.setFechaCreacion(usuario.getFechaAlta());
         usuarioDTO.setNombre(usuario.getNombre());
         usuarioDTO.setApellido(usuario.getApellido());
@@ -120,7 +120,7 @@ public class UsuarioController {
     }
 
     private void setUsuario(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO, Usuario usuario) {
-        usuario.setUsername(usuarioCreateDTO.getUsername());
+        usuario.setUsername(usuarioCreateDTO.getUsername().toLowerCase());
         usuario.setPassword(usuarioCreateDTO.getPassword());
         usuario.setNombre(usuarioCreateDTO.getNombre());
         usuario.setApellido(usuarioCreateDTO.getApellido());
