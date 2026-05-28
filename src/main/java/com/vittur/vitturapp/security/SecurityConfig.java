@@ -29,17 +29,6 @@ public class SecurityConfig {
         try {
             http.csrf(csrf -> csrf.disable());
 
-            http.authorizeHttpRequests(auth -> auth
-                    .requestMatchers(HttpMethod.POST, "/api/usuarios", "/api/usuarios/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/usuarios/total").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/vehiculos/total").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/vehiculos/usuarioid/**").hasAnyRole("CLIENTE", "MECANICO")
-                    .requestMatchers(HttpMethod.GET, "/api/revisiones/total").permitAll()
-                    .requestMatchers("/api/revisiones", "/api/revisiones/**").hasRole("MECANICO")
-                    .requestMatchers("/api/vehicles", "/api/vehicles/**").hasAnyRole("CLIENTE", "MECANICO")
-                    .anyRequest().authenticated()
-            );
-
             http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
             http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter.class);
