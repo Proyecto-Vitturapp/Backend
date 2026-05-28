@@ -39,7 +39,7 @@ public class VehiculoController {
         }
     }
 
-    @GetMapping("/vehicles/{plate}")
+    @GetMapping("/vehicle/{plate}")
     public ResponseEntity<VehiculoDTO> getVehiculoById(@PathVariable String plate){
         try {
             Vehiculo vehiculo = vehiculoService.getVehiculoById(plate);
@@ -69,7 +69,21 @@ public class VehiculoController {
         }
     }
 
-    @GetMapping("/vehiculos/usuarioid/{usuarioId}")
+    @GetMapping("/vehicles/in-workshop")
+    public ResponseEntity<List<VehiculoDTO>> getVehiclesInWorkshop(){
+        try {
+            List<Vehiculo> vehiculos = vehiculoService.getVehiculosEnTaller();
+            List<VehiculoDTO> vehiculosDTO = new ArrayList<>();
+            for (Vehiculo veh : vehiculos) {
+                vehiculosDTO.add(toVehiculoDTO(veh));
+            }
+            return new ResponseEntity<>(vehiculosDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/vehicles/{usuarioId}")
     public ResponseEntity<List<VehiculoDTO>> getVehiculosByIdUsuario(@PathVariable Integer usuarioId){
         try {
             List<Vehiculo> vehiculos = vehiculoService.findByIdUsuario(usuarioId);

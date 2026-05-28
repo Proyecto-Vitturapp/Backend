@@ -46,6 +46,10 @@ public class VehiculoService {
         return vehiculoRepository.countByStatus(1);
     }
 
+    public List<Vehiculo> getVehiculosEnTaller(){
+        return vehiculoRepository.findByStatus(1);
+    }
+
     @Transactional
     public void asociarVehiculo(Integer userId, String plate){
         Usuario usuario = usuarioRepository.findByIdUsuario(userId);
