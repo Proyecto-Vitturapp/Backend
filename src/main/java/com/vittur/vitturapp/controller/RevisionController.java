@@ -7,6 +7,7 @@ import com.vittur.vitturapp.model.Vehiculo;
 import com.vittur.vitturapp.services.RevisionService;
 import com.vittur.vitturapp.services.UsuarioService;
 import com.vittur.vitturapp.services.VehiculoService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,15 +75,12 @@ public class RevisionController {
     }
 
     @PostMapping("/review/new")
-    public ResponseEntity<?> addRevision(@Valid @RequestBody RevisionCreateDTO revisionCreateDTO){
-        try {
-            Revision revision = new Revision();
-            setRevision(revisionCreateDTO, revision);
-            revisionService.save(revision);
-            return new ResponseEntity<>(revision, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    @Transactional
+    public ResponseEntity<RevisionDTO> addRevision(@Valid @RequestBody RevisionCreateDTO revisionCreateDTO){
+        Revision revision = new Revision();
+        setRevision(revisionCreateDTO, revision);
+        revisionService.save(revision);
+        return new ResponseEntity<>(toRevisionDTO(revision), HttpStatus.CREATED);
     }
 
 
@@ -127,6 +125,9 @@ public class RevisionController {
         revision.setDiagnosticoResultado(revisionCreateDTO.getDiagnosticoResultado());
         revision.setImporte(revisionCreateDTO.getImporte());
         Vehiculo vehiculo = vehiculoService.getVehiculoById(revisionCreateDTO.getMatricula());
+        if (revisionCreateDTO.getFechaProximoMantenimiento() != null) {
+            vehiculo.setFechaProximoMantenimiento(revisionCreateDTO.getFechaProximoMantenimiento());
+        }
         vehiculoService.save(vehiculo);
         revision.setVehiculo(vehiculo);
         revision.setUsuario(usuarioService.getUsuarioById(revisionCreateDTO.getIdUsuario()));

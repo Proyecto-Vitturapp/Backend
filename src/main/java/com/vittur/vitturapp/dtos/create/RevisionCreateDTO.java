@@ -30,4 +30,6 @@ public class RevisionCreateDTO {
     private String matricula;
     @NotNull(message = "El identificador del usuario no puede ser nulo")
     private Integer idUsuario;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate fechaProximoMantenimiento;
 }
