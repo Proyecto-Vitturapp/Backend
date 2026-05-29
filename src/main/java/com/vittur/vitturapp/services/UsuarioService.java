@@ -4,6 +4,7 @@ import com.vittur.vitturapp.model.Usuario;
 import com.vittur.vitturapp.repository.UsuarioRepository;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,11 @@ public class UsuarioService {
 
     public Usuario getUsuarioById(Integer id){
         return usuarioRepository.findById(id).get();
+    }
+
+    public Usuario getUsuarioByUsername(String username){
+        return usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
     }
 
     public void deleteUsuario(Integer id){
