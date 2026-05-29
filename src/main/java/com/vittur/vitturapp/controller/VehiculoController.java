@@ -6,6 +6,7 @@ import com.vittur.vitturapp.model.Vehiculo;
 import com.vittur.vitturapp.services.RevisionService;
 import com.vittur.vitturapp.services.UsuarioService;
 import com.vittur.vitturapp.services.VehiculoService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -112,14 +113,11 @@ public class VehiculoController {
     }
 
     @PostMapping("/vehicle/new")
-    public ResponseEntity<?> addVehiculo(@Valid @RequestBody VehiculoCreateDTO vehiculoCreateDTO){
-        try {
-            Vehiculo vehiculo = new Vehiculo();
-            setVehiculo(vehiculoCreateDTO, vehiculo);
-            return new ResponseEntity<>(vehiculo, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    @Transactional
+    public ResponseEntity<VehiculoDTO> addVehiculo(@Valid @RequestBody VehiculoCreateDTO vehiculoCreateDTO){
+        Vehiculo vehiculo = new Vehiculo();
+        setVehiculo(vehiculoCreateDTO, vehiculo);
+        return new ResponseEntity<>(toVehiculoDTO(vehiculo), HttpStatus.CREATED);
     }
 
     @PostMapping("/usuarios/{usuarioId}/vehicles/{plate}")
@@ -132,18 +130,15 @@ public class VehiculoController {
         }
     }
 
-    @PutMapping("/vehicles/{plate}")
-    public ResponseEntity<?> updateVehiculo(@PathVariable String plate, @Valid @RequestBody VehiculoCreateDTO vehiculoCreateDTO){
-        try {
-            Vehiculo currentVehiculo = vehiculoService.getVehiculoById(plate);
-            setVehiculo(vehiculoCreateDTO, currentVehiculo);
-            return new ResponseEntity<>(currentVehiculo, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    @PutMapping("/vehicle/update/{plate}")
+    @Transactional
+    public ResponseEntity<VehiculoDTO> updateVehiculo(@PathVariable String plate, @Valid @RequestBody VehiculoCreateDTO vehiculoCreateDTO){
+        Vehiculo currentVehiculo = vehiculoService.getVehiculoById(plate);
+        setVehiculo(vehiculoCreateDTO, currentVehiculo);
+        return new ResponseEntity<>(toVehiculoDTO(currentVehiculo), HttpStatus.OK);
     }
 
-    @DeleteMapping("/vehicles/{plate}")
+    @DeleteMapping("/vehicle/delete/{plate}")
     public ResponseEntity<?> deleteVehiculo(@PathVariable String plate){
         try {
             vehiculoService.deleteVehiculo(plate);
@@ -174,7 +169,9 @@ public class VehiculoController {
         vehiculo.setAnyoFabricacion(vehiculoCreateDTO.getAnyoFabricacion());
         vehiculo.setTipoVehiculo(vehiculoCreateDTO.getTipoVehiculo());
         vehiculo.setFechaProximoMantenimiento(vehiculoCreateDTO.getFechaProximoMantenimiento());
-        vehiculo.setStatus(0);
+        if (vehiculo.getStatus() == null) {
+            vehiculo.setStatus(0);
+        }
         vehiculoService.save(vehiculo);
     }
 }
