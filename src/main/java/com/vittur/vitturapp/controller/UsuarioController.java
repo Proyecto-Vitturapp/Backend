@@ -24,7 +24,7 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    @GetMapping("/usuarios")
+    @GetMapping("/users/all")
     public ResponseEntity<List<UsuarioDTO>> getAllUsuarios(){
         try {
             List<Usuario> usuarios = usuarioService.getAllUsuarios();
@@ -39,7 +39,7 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/usuarios/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Integer id){
         try {
             Usuario usuario = usuarioService.getUsuarioById(id);
@@ -49,7 +49,7 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/usuarios/total")
+    @GetMapping("/users/all/total")
     public ResponseEntity<Long> getTotalUsuarios(){
         try {
             long total = usuarioService.getTotalUsuarios();
@@ -73,7 +73,7 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping("/usuarios")
+    @PostMapping("/user/new")
     public ResponseEntity<?> addUsuario(@Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO){
         try{
             Usuario usuario = new Usuario();
@@ -84,7 +84,7 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping("/usuarios/{id}")
+    @PutMapping("/user/update/{id}")
     public ResponseEntity<?> updateUsuario(@PathVariable Integer id, @Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO){
         try {
             Usuario currentUsuario = usuarioService.getUsuarioById(id);
@@ -95,7 +95,7 @@ public class UsuarioController {
         }
     }
 
-    @DeleteMapping("/usuarios/{id}")
+    @DeleteMapping("/user/delete/{id}")
     public ResponseEntity<?> deleteUsuario(@PathVariable Integer id){
         try {
             usuarioService.deleteUsuario(id);
