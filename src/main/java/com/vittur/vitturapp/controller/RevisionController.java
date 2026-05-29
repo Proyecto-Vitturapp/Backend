@@ -25,7 +25,7 @@ public class RevisionController {
     private final VehiculoService vehiculoService;
     private final UsuarioService usuarioService;
 
-    @GetMapping("/revisiones")
+    @GetMapping("/reviews/all")
     public ResponseEntity<List<RevisionDTO>> getAllRevisiones(){
         try {
             List<Revision> revisiones = revisionService.getAllRevisiones();
@@ -39,7 +39,7 @@ public class RevisionController {
         }
     }
 
-    @GetMapping("/revisiones/{id}")
+    @GetMapping("/review/{id}")
     public ResponseEntity<RevisionDTO> getRevisionById(@PathVariable Integer id){
         try {
             Revision revision = revisionService.getRevisionById(id);
@@ -49,7 +49,7 @@ public class RevisionController {
         }
     }
 
-    @GetMapping("/revisiones/vehiculo/{matricula}")
+    @GetMapping("/reviews/{matricula}")
     public ResponseEntity<List<RevisionDTO>> getRevisionesByMatricula(@PathVariable String matricula){
         try {
             List<Revision> revisiones = revisionService.getRevisionesByMatricula(matricula);
@@ -63,7 +63,7 @@ public class RevisionController {
         }
     }
 
-    @GetMapping("/revisiones/total")
+    @GetMapping("/reviews/all/total")
     public ResponseEntity<Long> getTotalRevisiones(){
         try {
             long total = revisionService.getTotalRevisiones();
@@ -73,7 +73,7 @@ public class RevisionController {
         }
     }
 
-    @PostMapping("/revisiones")
+    @PostMapping("/review/new")
     public ResponseEntity<?> addRevision(@Valid @RequestBody RevisionCreateDTO revisionCreateDTO){
         try {
             Revision revision = new Revision();
