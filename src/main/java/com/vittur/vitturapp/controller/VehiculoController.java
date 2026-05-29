@@ -162,6 +162,8 @@ public class VehiculoController {
         vehiculoDTO.setModelo(vehiculo.getModelo());
         vehiculoDTO.setAnyoFabricacion(vehiculo.getAnyoFabricacion());
         vehiculoDTO.setTipoVehiculo(vehiculo.getTipoVehiculo());
+        vehiculoDTO.setFechaProximoMantenimiento(vehiculo.getFechaProximoMantenimiento());
+        vehiculoDTO.setStatus(vehiculo.getStatus());
         return vehiculoDTO;
     }
 
@@ -171,6 +173,7 @@ public class VehiculoController {
         vehiculo.setModelo(vehiculoCreateDTO.getModelo());
         vehiculo.setAnyoFabricacion(vehiculoCreateDTO.getAnyoFabricacion());
         vehiculo.setTipoVehiculo(vehiculoCreateDTO.getTipoVehiculo());
+        vehiculo.setFechaProximoMantenimiento(vehiculoCreateDTO.getFechaProximoMantenimiento());
         vehiculo.setStatus(0);
         vehiculoService.save(vehiculo);
     }

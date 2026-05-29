@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,4 +25,5 @@ public class VehiculoCreateDTO {
     private String anyoFabricacion;
     @NotBlank(message = "El tipo de vehículo no puede estar vacío")
     private String tipoVehiculo;
+    private LocalDate fechaProximoMantenimiento;
 }
