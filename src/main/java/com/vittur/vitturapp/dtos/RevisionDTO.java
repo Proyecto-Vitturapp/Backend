@@ -1,5 +1,6 @@
 package com.vittur.vitturapp.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -8,11 +9,17 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RevisionDTO {
-    private Integer idRevision;
-    private String matricula;
-    private Integer idCliente;
-    private LocalDate fechaRevision;
-    private Integer kilometrajeActual;
-    private String diagnosticoResultado;
-    private float importe;
+    @JsonProperty("review_id")
+    private Integer review_id;
+    private String plate;
+    @JsonProperty("user_id")
+    private Integer user_id;
+    @JsonProperty("review_date")
+    private LocalDate review_date;
+    @JsonProperty("actual_km")
+    private Integer actual_km;
+    @JsonProperty("review_note")
+    private String review_note;
+    @JsonProperty("import")
+    private Float importe;
 }

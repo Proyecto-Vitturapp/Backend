@@ -109,27 +109,27 @@ public class RevisionController {
 
     private RevisionDTO toRevisionDTO(Revision revision){
         RevisionDTO revisionDTO = new RevisionDTO();
-        revisionDTO.setIdRevision(revision.getIdRevision());
-        revisionDTO.setMatricula(revision.getVehiculo() != null ? revision.getVehiculo().getMatricula() : null);
-        revisionDTO.setIdCliente(revision.getUsuario() != null ? revision.getUsuario().getIdUsuario() : null);
-        revisionDTO.setFechaRevision(revision.getFechaRevision());
-        revisionDTO.setKilometrajeActual(revision.getKilometrajeActual());
-        revisionDTO.setDiagnosticoResultado(revision.getDiagnosticoResultado());
+        revisionDTO.setReview_id(revision.getIdRevision());
+        revisionDTO.setPlate(revision.getVehiculo() != null ? revision.getVehiculo().getMatricula() : null);
+        revisionDTO.setUser_id(revision.getUsuario() != null ? revision.getUsuario().getIdUsuario() : null);
+        revisionDTO.setReview_date(revision.getFechaRevision());
+        revisionDTO.setActual_km(revision.getKilometrajeActual());
+        revisionDTO.setReview_note(revision.getDiagnosticoResultado());
         revisionDTO.setImporte(revision.getImporte());
         return revisionDTO;
     }
 
     private void setRevision(@RequestBody @Valid RevisionCreateDTO revisionCreateDTO, Revision revision) {
-        revision.setFechaRevision(revisionCreateDTO.getFechaRevision());
-        revision.setKilometrajeActual(revisionCreateDTO.getKilometrajeActual());
-        revision.setDiagnosticoResultado(revisionCreateDTO.getDiagnosticoResultado());
+        revision.setFechaRevision(revisionCreateDTO.getReview_date());
+        revision.setKilometrajeActual(revisionCreateDTO.getActual_km());
+        revision.setDiagnosticoResultado(revisionCreateDTO.getReview_note());
         revision.setImporte(revisionCreateDTO.getImporte());
-        Vehiculo vehiculo = vehiculoService.getVehiculoById(revisionCreateDTO.getMatricula());
-        if (revisionCreateDTO.getFechaProximoMantenimiento() != null) {
-            vehiculo.setFechaProximoMantenimiento(revisionCreateDTO.getFechaProximoMantenimiento());
+        Vehiculo vehiculo = vehiculoService.getVehiculoById(revisionCreateDTO.getPlate());
+        if (revisionCreateDTO.getNext_review_date() != null) {
+            vehiculo.setFechaProximoMantenimiento(revisionCreateDTO.getNext_review_date());
         }
         vehiculoService.save(vehiculo);
         revision.setVehiculo(vehiculo);
-        revision.setUsuario(usuarioService.getUsuarioById(revisionCreateDTO.getIdUsuario()));
+        revision.setUsuario(usuarioService.getUsuarioById(revisionCreateDTO.getUser_id()));
     }
 }

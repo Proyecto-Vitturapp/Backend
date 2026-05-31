@@ -1,5 +1,6 @@
 package com.vittur.vitturapp.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class JwtResponseDTO {
     private String token;
-    private Integer userId;
+    @JsonProperty("user_id")
+    private Integer user_id;
 }

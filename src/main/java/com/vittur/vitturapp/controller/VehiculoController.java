@@ -152,23 +152,23 @@ public class VehiculoController {
 
     public VehiculoDTO toVehiculoDTO(Vehiculo vehiculo){
         VehiculoDTO vehiculoDTO = new VehiculoDTO();
-        vehiculoDTO.setMatricula(vehiculo.getMatricula());
-        vehiculoDTO.setMarca(vehiculo.getMarca());
-        vehiculoDTO.setModelo(vehiculo.getModelo());
-        vehiculoDTO.setAnyoFabricacion(vehiculo.getAnyoFabricacion());
-        vehiculoDTO.setTipoVehiculo(vehiculo.getTipoVehiculo());
-        vehiculoDTO.setFechaProximoMantenimiento(vehiculo.getFechaProximoMantenimiento());
+        vehiculoDTO.setPlate(vehiculo.getMatricula());
+        vehiculoDTO.setBrand(vehiculo.getMarca());
+        vehiculoDTO.setModel(vehiculo.getModelo());
+        vehiculoDTO.setFabrication_year(vehiculo.getAnyoFabricacion());
+        vehiculoDTO.setVehicle_type(vehiculo.getTipoVehiculo());
+        vehiculoDTO.setNext_review_date(vehiculo.getFechaProximoMantenimiento());
         vehiculoDTO.setStatus(vehiculo.getStatus());
         return vehiculoDTO;
     }
 
     private void setVehiculo(@RequestBody @Valid VehiculoCreateDTO vehiculoCreateDTO, Vehiculo vehiculo){
-        vehiculo.setMatricula(vehiculoCreateDTO.getMatricula());
-        vehiculo.setMarca(vehiculoCreateDTO.getMarca());
-        vehiculo.setModelo(vehiculoCreateDTO.getModelo());
-        vehiculo.setAnyoFabricacion(vehiculoCreateDTO.getAnyoFabricacion());
-        vehiculo.setTipoVehiculo(vehiculoCreateDTO.getTipoVehiculo());
-        vehiculo.setFechaProximoMantenimiento(vehiculoCreateDTO.getFechaProximoMantenimiento());
+        vehiculo.setMatricula(vehiculoCreateDTO.getPlate());
+        vehiculo.setMarca(vehiculoCreateDTO.getBrand());
+        vehiculo.setModelo(vehiculoCreateDTO.getModel());
+        vehiculo.setAnyoFabricacion(vehiculoCreateDTO.getFabrication_year());
+        vehiculo.setTipoVehiculo(vehiculoCreateDTO.getVehicle_type());
+        vehiculo.setFechaProximoMantenimiento(vehiculoCreateDTO.getNext_review_date());
         if (vehiculo.getStatus() == null) {
             vehiculo.setStatus(0);
         }
