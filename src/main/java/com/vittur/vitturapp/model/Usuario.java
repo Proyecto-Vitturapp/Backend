@@ -49,6 +49,8 @@ public class Usuario {
     @PrePersist
     private void setFechaAltaAndRole(){
         this.fechaAlta = LocalDate.now();
-        this.rol = 0;
+        if (this.rol == null) {
+            this.rol = 0;
+        }
     }
 }
