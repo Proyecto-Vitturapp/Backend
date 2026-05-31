@@ -120,7 +120,7 @@ public class VehiculoController {
         return new ResponseEntity<>(toVehiculoDTO(vehiculo), HttpStatus.CREATED);
     }
 
-    @PostMapping("/usuarios/{usuarioId}/vehicles/{plate}")
+    @PostMapping("/vehicle/{plate}/add-user/{usuarioId}")
     public ResponseEntity<?> addVehiculoToUsuario(@PathVariable Integer usuarioId, @PathVariable String plate){
         try {
             vehiculoService.asociarVehiculo(usuarioId, plate);
