@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.List;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/users/all")
     public ResponseEntity<List<UsuarioDTO>> getAllUsuarios(){
@@ -59,7 +61,7 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/vehiculos/{matricula}/usuarios")
+    @GetMapping("/vehicle/{matricula}/users")
     public ResponseEntity<List<UsuarioDTO>> getUsuariosByMatricula(@PathVariable String matricula){
         try {
             List<Usuario> usuarios = usuarioService.getUsuariosByMatricula(matricula);
@@ -77,7 +79,7 @@ public class UsuarioController {
     public ResponseEntity<?> addUsuario(@Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO){
         try{
             Usuario usuario = new Usuario();
-            setUsuario(usuarioCreateDTO, usuario);
+            createUsuario(usuarioCreateDTO, usuario);
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -88,7 +90,7 @@ public class UsuarioController {
     public ResponseEntity<?> updateUsuario(@PathVariable Integer id, @Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO){
         try {
             Usuario currentUsuario = usuarioService.getUsuarioById(id);
-            setUsuario(usuarioCreateDTO, currentUsuario);
+            updateUsuarioFields(usuarioCreateDTO, currentUsuario);
             return new ResponseEntity<>(toUsuarioDTO(currentUsuario), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -107,26 +109,41 @@ public class UsuarioController {
 
     private UsuarioDTO toUsuarioDTO(Usuario usuario){
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setIdUsuario(usuario.getIdUsuario());
+        usuarioDTO.setUser_id(usuario.getIdUsuario());
         usuarioDTO.setUsername(usuario.getUsername().toLowerCase());
-        usuarioDTO.setFechaCreacion(usuario.getFechaAlta());
-        usuarioDTO.setNombre(usuario.getNombre());
-        usuarioDTO.setApellido(usuario.getApellido());
-        usuarioDTO.setSegundoApellido(usuario.getSegundoApellido());
+        usuarioDTO.setCreation_date(usuario.getFechaAlta());
+        usuarioDTO.setName(usuario.getNombre());
+        usuarioDTO.setFirst_last_name(usuario.getApellido());
+        usuarioDTO.setSecond_last_name(usuario.getSegundoApellido());
         usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setRol(usuario.getRol());
-        usuarioDTO.setTelefono(usuario.getTelefono());
+        usuarioDTO.setRole(usuario.getRol());
+        usuarioDTO.setPhone_number(usuario.getTelefono());
         return usuarioDTO;
     }
 
-    private void setUsuario(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO, Usuario usuario) {
+    private void createUsuario(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO, Usuario usuario) {
         usuario.setUsername(usuarioCreateDTO.getUsername().toLowerCase());
         usuario.setPassword(usuarioCreateDTO.getPassword());
-        usuario.setNombre(usuarioCreateDTO.getNombre());
-        usuario.setApellido(usuarioCreateDTO.getApellido());
-        usuario.setSegundoApellido(usuarioCreateDTO.getSegundoApellido());
+        usuario.setNombre(usuarioCreateDTO.getName());
+        usuario.setApellido(usuarioCreateDTO.getFirst_last_name());
+        usuario.setSegundoApellido(usuarioCreateDTO.getSecond_last_name());
         usuario.setEmail(usuarioCreateDTO.getEmail());
-        usuario.setTelefono(usuarioCreateDTO.getTelefono());
+        usuario.setTelefono(usuarioCreateDTO.getPhone_number());
+        usuario.setRol(usuarioCreateDTO.getRole());
         usuarioService.save(usuario);
+    }
+
+    private void updateUsuarioFields(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO, Usuario usuario) {
+        usuario.setUsername(usuarioCreateDTO.getUsername().toLowerCase());
+        if (usuarioCreateDTO.getPassword() != null && !usuarioCreateDTO.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(usuarioCreateDTO.getPassword()));
+        }
+        usuario.setNombre(usuarioCreateDTO.getName());
+        usuario.setApellido(usuarioCreateDTO.getFirst_last_name());
+        usuario.setSegundoApellido(usuarioCreateDTO.getSecond_last_name());
+        usuario.setEmail(usuarioCreateDTO.getEmail());
+        usuario.setTelefono(usuarioCreateDTO.getPhone_number());
+        usuario.setRol(usuarioCreateDTO.getRole());
+        usuarioService.update(usuario);
     }
 }
