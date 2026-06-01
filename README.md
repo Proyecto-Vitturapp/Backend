@@ -1,3 +1,29 @@
+# VITTURAPP
+
+**Desarrolladores:** Nil Creus, Iván Huesca, Arnau Pousa y Nil Rivera
+
+---
+
+## VitturApp - Backend
+API REST desarrollada con Spring Boot para la gestión de usuarios, vehículos y revisiones de un taller mecánico.
+
+### Requisitos Previos
+* Java 17
+* Maven
+* PostgreSQL
+
+### Configuración
+La aplicación utiliza variables de entorno para gestionar dinámicamente las credenciales de conexión y las claves criptográficas de firma. Puedes configurar estas propiedades en el entorno global del sistema o emplear un archivo `.env` en la raíz del backend gracias al soporte integrado de `spring-dotenv`:
+
+```properties
+# Credenciales y URI de la Base de Datos
+USER=tu_usuario_postgres
+PASS=tu_contrasenya_postgres
+URL=jdbc:postgresql://localhost:5432/vitturapp
+
+# Seguridad y Claves de Cifrado
+JWT_SECRET_KEY=tu_clave_secreta_para_firmar_tokens_jwt
+API_SECRET_KEY=tu_token_secreto_para_la_api_key
 ## Instalación
 
 1. Descarga o clona el repositorio del proyecto.
