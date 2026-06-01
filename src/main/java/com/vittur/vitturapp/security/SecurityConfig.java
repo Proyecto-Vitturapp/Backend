@@ -29,7 +29,7 @@ public class SecurityConfig {
         try {
             http.cors(cors -> cors.configurationSource(request -> {
                 var config = new org.springframework.web.cors.CorsConfiguration();
-                config.setAllowedOrigins(java.util.List.of("https://172.17.29.154:443"));
+                config.setAllowedOrigins(java.util.List.of("https://172.17.29.154"));
                 config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 config.setAllowedHeaders(java.util.List.of("*"));
                 config.setAllowCredentials(true);
